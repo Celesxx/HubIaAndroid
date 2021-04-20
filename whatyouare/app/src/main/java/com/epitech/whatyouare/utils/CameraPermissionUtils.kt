@@ -11,7 +11,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 
-class CameraPermissionManager {
+class CameraPermissionUtils {
     companion object {
         val CAMERA_RQ = 102
 
@@ -30,7 +30,7 @@ class CameraPermissionManager {
 
 
 
-        private fun showDialog(activity: Activity, context: Context, permission: String, name: String, requestCode: Int) {
+         fun showDialog(activity: Activity, context: Context, permission: String, name: String, requestCode: Int) {
             val builder = AlertDialog.Builder(context)
 
 
@@ -44,6 +44,7 @@ class CameraPermissionManager {
             val dialog = builder.create()
             dialog.show()
         }
+
     }
 
 }
