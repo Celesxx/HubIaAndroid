@@ -3,20 +3,23 @@ import ReactDOM from "react-dom";
 import Grid from "@material-ui/core/Grid";
 import "./index.css";
 import Index from "./routes/route";
-import Drawer from "./components/drawer";
 import Camera from "./components/camera";
+import BottomNav from "./components/BottomNav";
+import Container from '@material-ui/core/Container';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Grid container spacing={3}>
-      <Grid item xs={2}>
-        <Drawer />
-      </Grid>
-      <Grid item xs={10}>
+    <Grid container spacing={1}>
+      <Grid container item xs={12} spacing={3}>
         <Index />
       </Grid>
-      <Grid item xs={12}>
+      <Grid container item xs={12} spacing={3}>
         <Camera />
+      </Grid>
+      <Grid container item xs={12} spacing={3}>
+        <Container>
+          <BottomNav />
+        </Container>
       </Grid>
     </Grid>
   </React.StrictMode>,
