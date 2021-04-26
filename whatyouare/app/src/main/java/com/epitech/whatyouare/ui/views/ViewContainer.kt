@@ -43,8 +43,9 @@ fun ViewContainer() {
                         SimpleCameraPreview()
                     },
                     onDenied = {
-                        OnDeniedAlert(onOkButtonPress = { showDialog.value = it })
-                    }
+                        OnDeniedAlert()
+                    },
+                    onRational = { Text(text = "zizi")}
                 )
             }
         }
