@@ -1,4 +1,4 @@
-import Index from "../components/pages/index";
+import Index from "../components/pages/index.jsx";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
 
