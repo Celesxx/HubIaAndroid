@@ -1,0 +1,11 @@
+.bottombar {
+  position: fixed;
+  bottom: 5%;
+  background-color: #252c32 !important;
+  /* width: 100%; */
+  box-sizing: border-box;
+  margin: 0 auto;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+}

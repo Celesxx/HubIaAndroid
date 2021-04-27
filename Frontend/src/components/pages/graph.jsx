@@ -1,7 +1,6 @@
 import React from "react";
 import "../css/core.css";
 import "../css/input.css";
-import Bottombar from "./components/bottom.bar";
 import Paper from "@material-ui/core/Paper";
 import { PieChart, Pie, Cell } from "recharts";
 
@@ -79,8 +78,6 @@ class graph extends React.Component {
             </PieChart>
           </Paper>
         </Paper>
-
-        <Bottombar></Bottombar>
       </header>
     );
   }
