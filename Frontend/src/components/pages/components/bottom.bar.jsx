@@ -24,10 +24,10 @@ export default function SimpleBottomNavigation() {
         <Link to="/a">
           <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
         </Link>
-        <Link to="/b">
+        <Link to="/">
           <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
         </Link>
-        <Link to="/c">
+        <Link to="/graph">
           <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
         </Link>
       </BottomNavigation>
