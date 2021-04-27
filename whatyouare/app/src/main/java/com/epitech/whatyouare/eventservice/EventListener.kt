@@ -2,9 +2,9 @@ package com.epitech.whatyouare.eventservice
 
 interface EventListener {
 
-    fun onConnect()
+    fun onConnect(vararg args: Any)
 
-    fun onDisconnect()
+    fun onDisconnect(vararg args: Any)
 
-    fun onNewMessage()
+    fun onNewMessage(vararg args: Any)
 }

@@ -14,4 +14,5 @@ interface SocketDataSource: EventListener {
     fun sendMessage()
 
     fun setEventListener(eventListener: EventListener)
+
 }

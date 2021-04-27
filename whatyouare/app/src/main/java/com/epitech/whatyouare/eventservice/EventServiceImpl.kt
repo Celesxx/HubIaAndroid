@@ -1,7 +1,9 @@
 package com.epitech.whatyouare.eventservice
 
+import android.util.Log
 import io.socket.client.IO
 import io.socket.client.Socket
+import io.socket.emitter.Emitter
 import java.net.URISyntaxException
 import kotlin.jvm.Throws
 
@@ -12,7 +14,7 @@ class EventServiceImpl(): EventService{
         private val EVENT_DISCONNECT = Socket.EVENT_DISCONNECT
         private val EVENT_NEW_MESSAGE = "new message"
         private var mSocket: Socket? = null
-        private var mEventListener: EventListener? = null
+        private lateinit var mEventListener: EventListener
     }
 
     @Throws(URISyntaxException::class)
@@ -34,10 +36,37 @@ class EventServiceImpl(): EventService{
     }
 
     override fun sendMessage() {
-        TODO("Not yet implemented")
+        TODO("SEND MESSAGE Not yet implemented")
     }
 
     override fun setEventListener(eventListener: EventListener) {
         mEventListener = eventListener
+    }
+
+    // On Connect Listener
+    private fun onConnect(): Emitter.Listener =
+        Emitter.Listener {
+            Log.d("EventServiceImpl", "Event Received: Socket connection made")
+            if (mEventListener != null) {
+                mEventListener.onConnect(*it)    // TODO: Should VARARG be used?
+            }
+    }
+
+    // On Connect Listener
+    private fun onDisconnect(): Emitter.Listener =
+        Emitter.Listener {
+            Log.d("EventServiceImpl", "Event Received: Socket disconnected")
+            if (mEventListener != null) {
+                mEventListener.onConnect(*it)    // TODO: Should VARARG be used?
+            }
+    }
+
+    // On Connect Listener
+    private fun onNewMessage(): Emitter.Listener =
+        Emitter.Listener {
+            Log.d("EventServiceImpl", "Event Received: NewMessage")
+            if (mEventListener != null) {
+                mEventListener.onConnect(*it)    // TODO: Should VARARG be used?
+            }
     }
 }
