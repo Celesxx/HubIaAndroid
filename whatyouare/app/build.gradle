@@ -71,18 +71,24 @@ dependencies {
     implementation "androidx.camera:camera-view:1.0.0-alpha14"
 
 
+    //GSON
+    implementation 'com.google.code.gson:gson:2.8.6'
+
     //Socket.IO
-    implementation  'io.socket:socket.io-client:2.0.0'
+    implementation  'io.socket:socket.io-client:2.0.1'
 
 
     //Dagger - Hilt
-    implementation "com.google.dagger:hilt-android:2.32-alpha"
-    kapt "com.google.dagger:hilt-android-compiler:2.32-alpha"
-
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    //implementation "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha04"
     kapt "androidx.hilt:hilt-compiler:1.0.0-beta01"
 
     // Activity KTX for viewModels()
     implementation "androidx.activity:activity-ktx:1.2.2"
+
+    // Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
 }

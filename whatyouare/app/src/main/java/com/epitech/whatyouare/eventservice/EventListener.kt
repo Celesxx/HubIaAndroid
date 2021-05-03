@@ -7,4 +7,6 @@ interface EventListener {
     fun onDisconnect(vararg args: Any)
 
     fun onNewMessage(vararg args: Any)
+
+    fun onTestReceived(vararg args: Any)
 }

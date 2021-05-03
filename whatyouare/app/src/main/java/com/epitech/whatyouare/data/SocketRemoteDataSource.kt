@@ -1,26 +1,28 @@
 package com.epitech.whatyouare.data
 
 import com.epitech.whatyouare.eventservice.EventListener
+import com.epitech.whatyouare.eventservice.EventService
 import com.epitech.whatyouare.eventservice.EventServiceImpl
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import timber.log.Timber
 import java.net.URISyntaxException
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
 class SocketRemoteDataSource @Inject constructor(
-    private val mEventService: EventServiceImpl
+    private val mEventService: EventService
 ) : SocketDataSource {
 
-    private lateinit var mRepoEventListener: EventListener
+    //private lateinit var mRepoEventListener: EventListener
 
+    var onTestReceived = MutableSharedFlow<String>(replay = 1)
 
     init {
         mEventService.setEventListener(this)
     }
 
-
-    override fun setEventListener(eventListener: EventListener) {
-        mRepoEventListener = eventListener
-    }
 
     @Throws(URISyntaxException::class)
     override fun connect(username: String?) {
@@ -31,22 +33,26 @@ class SocketRemoteDataSource @Inject constructor(
         mEventService.disconnect()
     }
 
-    override fun onConnect(vararg args: Any) {
-        if (mRepoEventListener != null)
-            mRepoEventListener.onConnect(args)
-    }
-
-    override fun onDisconnect(vararg args: Any) {
-        if (mRepoEventListener != null)
-            mRepoEventListener.onDisconnect(args)
-    }
-
-    override fun onNewMessage(vararg args: Any) {
-        if (mRepoEventListener != null)
-            mRepoEventListener.onNewMessage(args)
-    }
-
     override fun sendMessage() {
         mEventService.sendMessage()
     }
+
+    override fun onConnect(vararg args: Any) {
+
+    }
+
+    override fun onDisconnect(vararg args: Any) {
+
+    }
+
+    override fun onNewMessage(vararg args: Any) {
+
+    }
+
+    override fun onTestReceived(vararg args: Any) {
+        // TODO Transform args from socket to Data Class for Repository
+        val tryEmitResult = onTestReceived.tryEmit("Test")
+        Timber.d("__________TRYEMIT RESULT : $tryEmitResult")
+    }
+
 }

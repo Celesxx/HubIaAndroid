@@ -13,6 +13,6 @@ interface SocketDataSource: EventListener {
 
     fun sendMessage()
 
-    fun setEventListener(eventListener: EventListener)
+    //fun setEventListener(eventListener: EventListener)
 
 }

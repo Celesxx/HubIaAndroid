@@ -21,7 +21,9 @@ import java.util.concurrent.Executors
 
 @Composable
 @androidx.camera.lifecycle.ExperimentalUseCaseGroupLifecycle
-fun SimpleCameraPreview() {
+fun SimpleCameraPreview(
+    CameraPreviewViewModel: CameraPreviewViewModel
+) {
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current

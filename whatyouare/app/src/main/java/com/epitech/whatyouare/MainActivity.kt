@@ -9,7 +9,9 @@ import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import com.epitech.whatyouare.ui.theme.WhatyouareTheme
 import com.epitech.whatyouare.ui.views.ViewContainer
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @androidx.camera.lifecycle.ExperimentalUseCaseGroupLifecycle
 class MainActivity : AppCompatActivity() {
 

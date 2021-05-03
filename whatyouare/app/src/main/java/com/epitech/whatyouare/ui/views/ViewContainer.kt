@@ -8,18 +8,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Button
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.epitech.whatyouare.utils.CameraPermissionUtils
+
 
 @Composable
 @androidx.camera.lifecycle.ExperimentalUseCaseGroupLifecycle
 fun ViewContainer() {
+    val cameraPreviewViewModel: CameraPreviewViewModel = viewModel()
     val permissionContext = LocalContext.current as AppCompatActivity?
-    val showDialog = mutableStateOf(false)
+    val showDialog = remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
@@ -35,17 +37,19 @@ fun ViewContainer() {
                 Text(text = "Open camera")
             }
 
+            Text(cameraPreviewViewModel.testStr)
+
             if (showDialog.value) {
                 PermissionsRequest(
                     permissions = arrayOf(Manifest.permission.CAMERA),
                     requestCode = CameraPermissionUtils.CAMERA_RQ,
                     onGranted = {
-                        SimpleCameraPreview()
+                        SimpleCameraPreview(cameraPreviewViewModel)
                     },
                     onDenied = {
                         OnDeniedAlert()
                     },
-                    onRational = { Text(text = "zizi")}
+                    onRational = { Text(text = "zizi") }
                 )
             }
         }
