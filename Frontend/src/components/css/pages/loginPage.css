@@ -1,0 +1,56 @@
+body > div > div
+{
+    display: grid; 
+    grid-template-columns: 1fr; 
+    grid-template-areas:
+    "header"
+    "main"
+    "footer";
+    grid-gap: 15px;
+    height: 100vh;
+    line-height: 1.5;
+    background-color: #333333;
+    color: #ffffff;
+    margin:0px;
+	padding:0px;
+}
+
+body > div > div > header
+{
+    grid-area: header;
+    margin: auto;
+}
+
+body > div > div > header > h1
+{
+    margin: auto;
+}
+
+body > div > div > main
+{
+    grid-area: main;
+    margin: auto;
+    padding: 15%;
+}
+
+#inputLogin
+{
+    background-color: black;
+    
+}
+
+button
+{
+    margin-left: 35%;
+    text-align: center;
+}
+
+
+body > div > div > footer
+{
+    grid-area: footer;
+    max-height: 35%;
+    margin: auto;
+    padding: 1em;
+    font-size: large;
+}
