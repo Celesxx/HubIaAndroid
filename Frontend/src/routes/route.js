@@ -1,6 +1,6 @@
 import Index from "../components/pages/index.jsx";
 import Graph from "../components/pages/graph.jsx";
-import Data from "../components/pages/data.jsx"
+import Data from "../components/pages/data.jsx";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -20,11 +20,11 @@ function indexRoute() {
           <Route path="/data">
             <Data />
           </Route>
-          <Route path="/">
-            <Index />
-          </Route>
           <Route path="/graph">
             <Graph />
+          </Route>
+          <Route path="/">
+            <Index />
           </Route>
         </Switch>
         <BottomNavigation className="bottombar">
