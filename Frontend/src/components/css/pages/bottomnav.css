@@ -9,3 +9,7 @@
   transform: translate(-50%, -50%);
   border-radius: 5px;
 }
+
+.active .MuiSvgIcon-root {
+  color: #d2d2d2 !important;
+}
