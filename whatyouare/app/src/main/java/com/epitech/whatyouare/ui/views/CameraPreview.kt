@@ -1,6 +1,11 @@
 package com.epitech.whatyouare.ui.views
 
-import android.util.Log
+import android.annotation.SuppressLint
+import android.media.Image
+import android.os.SystemClock
+import android.util.Rational
+import android.util.Size
+import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -15,18 +20,21 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.epitech.whatyouare.R
+import timber.log.Timber
 import java.lang.Exception
+import java.nio.ByteBuffer
 import java.util.concurrent.Executors
 
 
 @Composable
-@androidx.camera.lifecycle.ExperimentalUseCaseGroupLifecycle
-fun SimpleCameraPreview(
+@SuppressLint("UnsafeExperimentalUsageError")
+fun CameraPreview(
     CameraPreviewViewModel: CameraPreviewViewModel
 ) {
 
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
+
 
     val cameraProviderFuture = remember {
         ProcessCameraProvider.getInstance(context)
@@ -42,9 +50,11 @@ fun SimpleCameraPreview(
         Executors.newSingleThreadExecutor()
     }
 
+
+
     AndroidView(
         factory = { previewView },
-        Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
@@ -54,6 +64,7 @@ fun SimpleCameraPreview(
                     it.setSurfaceProvider(previewView.createSurfaceProvider())
                 }
             val objectAnalyzer = ImageAnalysis.Builder()
+                .setTargetResolution(Size(1440, 3040))
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also {
@@ -64,21 +75,54 @@ fun SimpleCameraPreview(
 
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(lifecycleOwner, cameraSelector, preview, objectAnalyzer)
+                cameraProvider.bindToLifecycle(
+                    lifecycleOwner,
+                    cameraSelector,
+                    preview,
+                    objectAnalyzer
+                )
             } catch (e: Exception) {
-                Log.e("EXCEPTION", "CameraX ${e.localizedMessage}")
+                Timber.e("____________ERROR CAMERAX :\nCameraX ${e.localizedMessage}")
             }
         }, ContextCompat.getMainExecutor(context))
     }
 }
 
 
-private class MachineLearningAnalyzer(): ImageAnalysis.Analyzer {
+private class MachineLearningAnalyzer : ImageAnalysis.Analyzer {
 
-    @androidx.camera.core.ExperimentalGetImage
+    private val TIME_IN_MS = 1000
+    private var lastAnalyzedTimeStamp = 0L
+
+    private fun ByteBuffer.toByteArray(): ByteArray {
+        rewind()
+        val data = ByteArray(remaining())
+        get(data)
+        return data
+    }
+
+    @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(imageProxy: ImageProxy) {
-        val image = imageProxy.image
-        image?.close()
+        if (hasHalfSecondPassed()) {
+            val mediaImage = imageProxy.image
+            mediaImage?.let {
+                Timber.d("________IMAGE TRIGGERED: ${it.planes}")
+            } ?: run { imageProxy.close() }
+        }
+        imageProxy.close()
+    }
+
+
+    fun hasHalfSecondPassed(): Boolean {
+        //val currentTimeStamp = System.currentTimeMillis()
+        //val currentTimeStamp = SystemClock.uptimeMillis()
+        val currentTimeStamp = SystemClock.elapsedRealtime()
+        return if ((currentTimeStamp - lastAnalyzedTimeStamp) >= TIME_IN_MS) {
+            lastAnalyzedTimeStamp = currentTimeStamp
+            true
+        } else {
+            false
+        }
     }
 }
 

@@ -22,6 +22,7 @@ fun ViewContainer() {
     val cameraPreviewViewModel: CameraPreviewViewModel = viewModel()
     val permissionContext = LocalContext.current as AppCompatActivity?
     val showDialog = remember { mutableStateOf(false) }
+    var isCameraActive by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
@@ -32,24 +33,26 @@ fun ViewContainer() {
             modifier = Modifier.fillMaxSize()
         ) {
 
-            Button(
-                onClick = { showDialog.value = true }) {
-                Text(text = "Open camera")
-            }
+            if (!isCameraActive) {
+                Button(
+                    onClick = { showDialog.value = true }) {
+                    Text(text = "Open camera")
+                }
 
-            Text(cameraPreviewViewModel.testStr)
+                Text(cameraPreviewViewModel.testStr)
+            }
 
             if (showDialog.value) {
                 PermissionsRequest(
                     permissions = arrayOf(Manifest.permission.CAMERA),
                     requestCode = CameraPermissionUtils.CAMERA_RQ,
                     onGranted = {
-                        SimpleCameraPreview(cameraPreviewViewModel)
+                        CameraPreview(cameraPreviewViewModel)
                     },
                     onDenied = {
                         OnDeniedAlert()
                     },
-                    onRational = { Text(text = "zizi") }
+                    onRational = { Text(text = "Rationale") }
                 )
             }
         }

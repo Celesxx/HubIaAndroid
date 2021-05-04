@@ -14,7 +14,9 @@ import kotlin.jvm.Throws
 
 class EventServiceImpl @Inject() constructor() : EventService {
     companion object {
-        private val SOCKET_URL = "http://10.0.2.2:4000/"
+        private val EMULATOR_URL = "http://10.0.2.2:4000/"
+        private val LOCALHOST_URL = "http://127.0.0.1:4000/"
+        private val SOCKET_URL = LOCALHOST_URL
         private val EVENT_CONNECT = Socket.EVENT_CONNECT
         private val EVENT_DISCONNECT = Socket.EVENT_DISCONNECT
         private val EVENT_NEW_MESSAGE = "new message"
@@ -47,7 +49,7 @@ class EventServiceImpl @Inject() constructor() : EventService {
                     connect()
                     emit("Hello", "Bonjour")
                 }
-                GlobalScope.launch {
+/*                GlobalScope.launch {
                     withContext(Dispatchers.IO) {
                         while (true) {
                             Timber.d("____________HERE IS SOCKET CONNECTED : ${mSocket?.connected()}")
@@ -55,7 +57,7 @@ class EventServiceImpl @Inject() constructor() : EventService {
                             delay(1000)
                         }
                     }
-                }
+                }*/
             }
 
         } catch (e: URISyntaxException) {
