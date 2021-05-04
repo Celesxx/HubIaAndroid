@@ -1,6 +1,7 @@
 import React from "react";
 import Paper from "@material-ui/core/Paper";
 import { DataGrid } from "@material-ui/data-grid";
+import { makeStyles } from "@material-ui/core/styles";
 
 import "../css/core.css";
 import "../css/input.css";
@@ -40,41 +41,39 @@ const rows = [
   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
-class data extends React.Component {
-  render() {
-    return (
-      <header className="body">
-        <Paper
-          elevation={3}
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    margin: 50,
+    backgroundColor: "#252C32",
+  },
+  datagrid: {
+    color: "#d2d2d2 !important",
+    border: "none",
+  },
+}));
+
+export default function FullWidthGrid() {
+  const classes = useStyles();
+
+  return (
+    <header className="body">
+      <Paper elevation={3} className={classes.paper}>
+        <div
           style={{
-            margin: 50,
-            backgroundColor: "#252C32",
+            height: "calc(100% - 20px)",
+            width: "calc(100% - 20px)",
+            margin: 10,
+            backgroundColor: "#383f47",
+            borderRadius: "4px",
           }}
         >
-          <div
-            style={{
-              height: "calc(100% - 20px)",
-              width: "calc(100% - 20px)",
-              margin: 10,
-              backgroundColor: "#383f47",
-              borderRadius: "4px",
-            }}
-          >
-            <DataGrid
-              style={{
-                color: "#d2d2d2 !important",
-                border: "none",
-              }}
-              rows={rows}
-              columns={columns}
-              //   pageSize={5}
-            //   checkboxSelection
-            />
-          </div>
-        </Paper>
-      </header>
-    );
-  }
+          <DataGrid
+            className={classes.datagrid}
+            rows={rows}
+            columns={columns}
+          />
+        </div>
+      </Paper>
+    </header>
+  );
 }
-
-export default data;
