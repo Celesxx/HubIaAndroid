@@ -1,4 +1,4 @@
-const Player = require('../models/user.js');
+const User = require('../models/user.js');
 const mongoose = require('mongoose');
 
 exports.createUser = (req, res) => 
@@ -9,9 +9,7 @@ exports.createUser = (req, res) =>
         lastName : req.body.lastName,
         mail : req.body.mail,
         username : req.body.username,
-        password : md5(req.body.password),
-        score : req.body.score,
-        token : req.body.token
+        password : req.body.password
     });
 
     user.save().then(user => 
@@ -65,35 +63,38 @@ exports.getUser = (req, res) =>
 };
  
 
-// exports.updatePlayer = (req, res) => {
-//     Player.updateOne({player_id: req.params.id},
-//     {
-//         username : req.body.username,
-//         score : req.body.score
-//     }, {new: true})
-//     .then(player => 
-//     {
-//         if(!player) 
-//         {
-//             return res.status(404).send({
-//                 message: "Error -> Can NOT update a player with id = " + req.params.id,
-//                 error: "Not Found!"
-//             });
-//         }
+exports.updateUser = (req, res) => {
+    User.updateOne({user_id: req.params.id},
+    {
+        firstName : req.body.firstName,
+        lastName : req.body.lastName,
+        mail : req.body.mail,
+        username : req.body.username,
+        password : req.body.password
 
-//     res.status(200).json(player);
+    }, {new: true})
+    .then(user => 
+    {
+        if(!user) 
+        {
+            return res.status(404).send({
+                message: "Error -> Can NOT update a user with id = " + req.params.id,
+                error: "Not Found!"
+            });
+        }
 
-//     }).catch(err => {
-//         return res.status(500).send({
-//             message: "Error -a> Can not update a player with id = " + req.params.id,
-//             error: err.message
-//         });
-//     });
-// };
+    res.status(200).json(user);
+
+    }).catch(err => {
+        return res.status(500).send({
+            message: "Error -a> Can not update a user with id = " + req.params.id,
+            error: err.message
+        });
+    });
+};
 
 exports.deleteUser = (req, res) => 
 {
-
     User.remove({user_id : req.params.id})
     .then(user => {
         if(!user) {

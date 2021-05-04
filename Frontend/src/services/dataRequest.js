@@ -1,16 +1,16 @@
-// import axios from "axios";
+ import axios from "axios";
 
-// export function getDatas()
-// {
-//     const URL = "adresse/getDatas";
-//     return axios(URL, {
-//       method: 'GET'
-//     })
-//       .then(response => response.data)
-//       .catch(error => {
-//         throw error;
-//       });
-// };
+ export function getDatas(id)
+ {
+     const URL = "localhost:8081/" + id;
+     return axios(URL, {
+       method: 'GET'
+     })
+       .then(response => response.data)
+       .catch(error => {
+         throw error;
+       });
+ };
 
 // export function updateData(id,data)
 // {
