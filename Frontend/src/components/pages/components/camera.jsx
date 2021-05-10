@@ -3,17 +3,23 @@ import React, { useRef, useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
-import { drawRect } from "../../function/utilities";
+import { drawRect } from "../../function/utilities.function";
+import { record } from "../../function/tag.function";
 
-function Camera() {
+function Camera() 
+{
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
+  const [response, setResponse] = useState("");
+
   // Main function
-  const runCoco = async () => {
+  const runCoco = async () => 
+  {
     const net = await cocossd.load();
     //  Loop and detect hands
-    setInterval(() => {
+    setInterval(() => 
+    {
       detect(net);
     }, 10);
   };
@@ -36,8 +42,10 @@ function Camera() {
 
       // Send video to IA
       const obj = await net.detect(video);
-      console.log(obj);
 
+
+      record(obj, webcamRef)
+     
       // Draw mesh
       const ctx = canvasRef.current.getContext("2d");
 
@@ -46,6 +54,10 @@ function Camera() {
   };
 
   useEffect(() => {
+    // const socket = socketIOClient(ENDPOINT);
+    // socket.on("image", data => {
+    //   setResponse(data);
+    // });
     runCoco();
   }, []);
 
