@@ -20,7 +20,7 @@
     "react-scripts": "4.0.3",
     "react-syntax-highlighter": "^15.4.3",
     "react-webcam": "^5.2.3",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",

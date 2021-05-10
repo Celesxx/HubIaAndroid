@@ -33,16 +33,29 @@ body > div > div > main
     padding: 15%;
 }
 
-#inputLogin
+#formLogin
 {
     background-color: black;
-    
+    padding-left: 10%;
+    padding-right: 10%;
 }
 
+#formLogin input{
+    width:96%;
+}
+
+div#submit {
+    text-align: center;
+}
 button
 {
-    margin-left: 35%;
-    text-align: center;
+    color: #AAE;
+    background-color: whitesmoke;
+    border-radius: 16px;
+    padding: 5px 10px 5px 10px;
+    box-shadow: none;
+    position: relative;
+    float: center;
 }
 
 
