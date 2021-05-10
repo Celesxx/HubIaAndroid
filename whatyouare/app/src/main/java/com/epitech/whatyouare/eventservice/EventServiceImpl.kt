@@ -42,11 +42,15 @@ class EventServiceImpl @Inject() constructor() : EventService {
 
             mSocket?.let {
                 with(it) {
+
+                    // BIND LISTENERS TO CALLBACKS
                     on(Socket.EVENT_CONNECT, onConnect())
                     on(Socket.EVENT_DISCONNECT, onDisconnect())
                     on(Socket.EVENT_CONNECT_ERROR, onConnectError())
                     on("onTestReceived", onTestReceived())
+
                     connect()
+
                     emit("Hello", "Bonjour")
                 }
 /*                GlobalScope.launch {
@@ -65,34 +69,49 @@ class EventServiceImpl @Inject() constructor() : EventService {
         }
     }
 
-    override fun disconnect() {
-        if (mSocket != null) mSocket?.disconnect()
-    }
-
-    override fun sendMessage() {
-        TODO("SEND MESSAGE Not yet implemented")
-    }
 
     override fun setEventListener(eventListener: EventListener) {
         mEventListener = eventListener
     }
 
-    // On Connect Listener
+
+    override fun disconnect() {
+        if (mSocket != null) mSocket?.disconnect()
+    }
+
+
+    // ============== EMITTERS ==============
+
+    override fun sendMessage() {
+        TODO("SEND MESSAGE Not yet implemented")
+    }
+
+
+    override fun sendImages(event: String, vararg args: Any) {
+        mSocket?.emit(event, args)
+    }
+
+
+    // ============== LISTENERS ==============
+
     private fun onConnect(): Emitter.Listener =
         Emitter.Listener {
             Timber.d("Event Received: Socket connection made")
             mEventListener.onConnect(*it)
         }
 
-    // On Connect Listener
     private fun onDisconnect(): Emitter.Listener =
         Emitter.Listener {
             Timber.d("Event Received: Socket disconnected")
             mEventListener.onConnect(*it)
-
         }
 
-    // On Connect Listener
+    private fun onConnectError(): Emitter.Listener =
+        Emitter.Listener {
+            Timber.d("Event Received: ON CONNECT ERROR")
+            Timber.d("ERROR MESSAGE: \n ${it[0]}")
+        }
+
     private fun onNewMessage(): Emitter.Listener =
         Emitter.Listener {
             Timber.d("Event Received: NewMessage")
@@ -100,8 +119,6 @@ class EventServiceImpl @Inject() constructor() : EventService {
         }
 
 
-
-    // On Connect Listener
     private fun onTestReceived(): Emitter.Listener =
         Emitter.Listener {
             Timber.d("Event Received: TEST RECEIVED")
@@ -109,15 +126,5 @@ class EventServiceImpl @Inject() constructor() : EventService {
         }
 
 
-    // On Connect Listener
-    private fun onConnectError(): Emitter.Listener =
-        Emitter.Listener {
-            Timber.d("Event Received: ON CONNECT ERROR")
-            Timber.d("ERROR MESSAGE: \n ${it[0]}")
-        }
 
-
-    fun sendData(event: String, vararg args: Any) {
-        mSocket?.emit(event, args)
-    }
 }

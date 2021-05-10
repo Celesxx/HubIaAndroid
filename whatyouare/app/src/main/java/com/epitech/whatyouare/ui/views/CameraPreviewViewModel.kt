@@ -32,6 +32,10 @@ class CameraPreviewViewModel @Inject constructor(
         }
     }
 
+    fun sendEncodedImages(encodedImage: String) {
+
+    }
+
     override fun onCleared() {
         repository.disconnect()
         super.onCleared()

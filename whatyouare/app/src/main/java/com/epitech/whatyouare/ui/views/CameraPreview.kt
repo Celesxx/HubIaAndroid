@@ -1,11 +1,8 @@
 package com.epitech.whatyouare.ui.views
 
 import android.annotation.SuppressLint
-import android.media.Image
 import android.os.SystemClock
-import android.util.Rational
 import android.util.Size
-import androidx.camera.core.AspectRatio
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -22,14 +19,14 @@ import androidx.core.content.ContextCompat
 import com.epitech.whatyouare.R
 import timber.log.Timber
 import java.lang.Exception
-import java.nio.ByteBuffer
 import java.util.concurrent.Executors
+import java.util.Base64
 
 
 @Composable
 @SuppressLint("UnsafeExperimentalUsageError")
 fun CameraPreview(
-    CameraPreviewViewModel: CameraPreviewViewModel
+    cameraPreviewViewModel: CameraPreviewViewModel
 ) {
 
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -68,7 +65,10 @@ fun CameraPreview(
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also {
-                    it.setAnalyzer(cameraExecutor, MachineLearningAnalyzer())
+                    it.setAnalyzer(cameraExecutor, MachineLearningAnalyzer { encodedImage ->
+                        cameraPreviewViewModel.sendEncodedImages(encodedImage)
+                        Timber.d("IT WORKS !!! $encodedImage")
+                    })
                 }
 
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
@@ -89,26 +89,43 @@ fun CameraPreview(
 }
 
 
-private class MachineLearningAnalyzer : ImageAnalysis.Analyzer {
+private class MachineLearningAnalyzer(private var listener: (encodedImage: String) -> Unit) :
+    ImageAnalysis.Analyzer {
 
     private val TIME_IN_MS = 1000
     private var lastAnalyzedTimeStamp = 0L
 
-    private fun ByteBuffer.toByteArray(): ByteArray {
-        rewind()
-        val data = ByteArray(remaining())
-        get(data)
-        return data
-    }
+
 
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(imageProxy: ImageProxy) {
         if (hasHalfSecondPassed()) {
             val mediaImage = imageProxy.image
             mediaImage?.let {
-                Timber.d("________IMAGE TRIGGERED: ${it.planes}")
+
+                // Extract image data in YUV_420_888 and set it to Byte Array
+                val y = mediaImage.planes[0]
+                val u = mediaImage.planes[1]
+                val v = mediaImage.planes[2]
+
+                val yB = y.buffer.remaining()
+                val uB = u.buffer.remaining()
+                val vB = v.buffer.remaining()
+
+                val imageData = ByteArray(yB + uB + vB)
+
+                y.buffer.get(imageData, 0, yB)
+                u.buffer.get(imageData, yB, uB)
+                v.buffer.get(imageData, yB + uB, vB)
+
+                val encodedImageData = Base64.getEncoder().encodeToString(imageData)
+
+                listener(encodedImageData)
+
+
             } ?: run { imageProxy.close() }
         }
+
         imageProxy.close()
     }
 

@@ -30,4 +30,8 @@ class SocketRepository @Inject constructor(
         it
     }.flowOn(Dispatchers.IO)
 
+
+    fun sendEncodedImageOnChannel(encodedImage: String) {
+        mSocketRemoteDataSource.sendImagesChannel.tryEmit(encodedImage)
+    }
 }
