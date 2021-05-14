@@ -5,11 +5,12 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 
+import Navbar from "./components/navbar";
 import PieChart from "./components/pieChart";
+import "../css/pages/graph.css"
 
 const useStyles = makeStyles((theme) => ({
   bigpaper: {
-    margin: 50,
     backgroundColor: "#252C32",
   },
   paper: {
@@ -26,6 +27,7 @@ export default function FullWidthGrid() {
 
   return (
     <header className="body">
+      <div className="chart">
       <Paper className={classes.bigpaper} elevation={3}>
         <Grid container spacing={1}>
           <Grid item xs={4}>
@@ -75,6 +77,8 @@ export default function FullWidthGrid() {
           </Grid>
         </Grid>
       </Paper>
+      </div>
+      <Navbar></Navbar>
     </header>
   );
 }

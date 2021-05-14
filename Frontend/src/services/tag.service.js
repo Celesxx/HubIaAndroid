@@ -22,7 +22,7 @@ export function postTag(data)
 
 export function getTags()
 {
-    const URL = "adresse/getTags";
+    const URL = "http://localhost:8081/getTags";
     return axios(URL, {
       method: 'GET'
     })
@@ -34,7 +34,7 @@ export function getTags()
 
 export function updateTag(id,data)
 {
-    const URL = `adresse/putTag/${id}`;
+    const URL = `http://localhost:8081/putTag/${id}`;
     return axios(URL, {
       method: 'PUT',
       data: data
@@ -46,7 +46,7 @@ export function updateTag(id,data)
 };
 
 export function deleteTag(id)  {
-  const URL = `adresse/deleteTag/${id}`;
+  const URL = `http://localhost:8081/deleteTag/${id}`;
   return axios(URL, {
     method: 'DELETE'
   })
