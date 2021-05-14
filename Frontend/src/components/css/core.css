@@ -1,0 +1,20 @@
+#root
+{
+  min-height: 100vh;
+  background-color: #383F47;
+
+}
+
+.body
+{
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr 0.15fr;
+}
+
+
+
+
+
+
+

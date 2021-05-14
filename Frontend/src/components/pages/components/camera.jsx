@@ -3,19 +3,23 @@ import React, { useRef, useState, useEffect } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as cocossd from "@tensorflow-models/coco-ssd";
 import Webcam from "react-webcam";
-import "./App.css";
-import {drawRect} from "./utilities";
+import { drawRect } from "../../function/utilities.function";
+import { record } from "../../function/tag.function";
 
-function App() {
+function Camera() 
+{
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
+  const [response, setResponse] = useState("");
+
   // Main function
-  const runCoco = async () => {
-    
+  const runCoco = async () => 
+  {
     const net = await cocossd.load();
     //  Loop and detect hands
-    setInterval(() => {
+    setInterval(() => 
+    {
       detect(net);
     }, 10);
   };
@@ -32,33 +36,37 @@ function App() {
       const videoWidth = webcamRef.current.video.videoWidth;
       const videoHeight = webcamRef.current.video.videoHeight;
 
-      // Set video width
-      webcamRef.current.video.width = videoWidth;
-      webcamRef.current.video.height = videoHeight;
-
       // Set canvas height and width
       canvasRef.current.width = videoWidth;
       canvasRef.current.height = videoHeight;
 
+      // Send video to IA
       const obj = await net.detect(video);
-      console.log(obj)
 
+
+      record(obj, webcamRef)
+     
       // Draw mesh
       const ctx = canvasRef.current.getContext("2d");
-
 
       drawRect(obj, ctx);
     }
   };
 
-  useEffect(()=>{runCoco()},[]);
+  useEffect(() => {
+    // const socket = socketIOClient(ENDPOINT);
+    // socket.on("image", data => {
+    //   setResponse(data);
+    // });
+    runCoco();
+  }, []);
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="Camera">
+      <header className="Camera-header">
         <Webcam
           ref={webcamRef}
-          muted={true} 
+          muted={true}
           style={{
             position: "absolute",
             marginLeft: "auto",
@@ -67,8 +75,8 @@ function App() {
             right: 0,
             textAlign: "center",
             zindex: 9,
-            width: 640,
-            height: 480,
+            width: 1024,
+            height: 576,
           }}
         />
 
@@ -82,8 +90,8 @@ function App() {
             right: 0,
             textAlign: "center",
             zindex: 8,
-            width: 640,
-            height: 480,
+            width: 1024,
+            height: 576,
           }}
         />
       </header>
@@ -91,4 +99,4 @@ function App() {
   );
 }
 
-export default App;
+export default Camera;

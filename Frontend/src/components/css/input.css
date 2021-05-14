@@ -1,0 +1,82 @@
+input {
+    border-bottom: none !important;
+}
+
+input[type="text"]:not(.browser-default):focus:not([readonly]) {
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.MuiInputBase-input {
+    margin : 0px 0px 0px 5px !important;
+}
+
+
+/* search bar */
+
+  
+
+ 
+  
+input::placeholder 
+{
+    color: #3259ca;
+    opacity: 1;
+}
+
+#selectTable
+{
+    border: solid 0.5px rgb(168, 168, 168);
+    display: initial;
+    width: 100px;
+    height: 40px;   
+    color: #858796;
+    font-size: 14px;
+    appearance: none;
+    outline: none;
+}
+#tableLabel
+{
+    max-width: 270px;
+    display:grid;
+    grid-template-columns: 0.4fr 1fr;
+}
+
+#tableLabelText
+{
+    color: #858796;
+    font-size: 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.searchTable
+{
+    width: 250px;
+    height: 40px; 
+    display: flex;
+    background-color: transparent;
+    border: solid 1.5px rgb(168, 168, 168);
+    color: #858796;
+    margin-right: 15px;
+    margin-left: auto;
+}
+  
+.searchTermTable::placeholder
+{
+    
+    color: #858796;
+}
+  
+.searchTermTable:focus
+{
+    color:#858796;
+}
+
+.buttondisplay
+{
+    font-family: 'Muli', sans-serif;
+    margin-top: 20px;
+    margin-bottom: auto;
+    margin-left: 15px;
+}
