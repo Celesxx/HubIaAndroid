@@ -2,6 +2,7 @@ var cors = require('cors');
 module.exports = function(app) 
 {
     app.use(cors());
+    
     var playerController = require('../controllers/player.controller.js');
     var tagController = require('../controllers/tag.controller.js');
     // var iaController = require('../controllers/ia.controller.js')

@@ -3,10 +3,12 @@ import Paper from "@material-ui/core/Paper";
 import { DataGrid } from "@material-ui/data-grid";
 import { makeStyles } from "@material-ui/core/styles";
 
+import Navbar from "./components/navbar";
 import "../css/core.css";
 import "../css/input.css";
 
-const columns = [
+const columns = 
+[
   { field: "id", headerName: "ID", width: 70 },
   { field: "firstName", headerName: "First name", width: 130 },
   { field: "lastName", headerName: "Last name", width: 130 },
@@ -74,6 +76,7 @@ export default function FullWidthGrid() {
           />
         </div>
       </Paper>
+      <Navbar></Navbar>
     </header>
   );
 }

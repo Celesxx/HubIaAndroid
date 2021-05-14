@@ -5,7 +5,7 @@ exports.createTag = (req, res) =>
     res.header("Access-Control-Allow-Origin", "*");
     const tag = new Tag(
     {
-        name : req.body.username,
+        name : req.body.name,
         box : req.body.box,
         score : req.body.score,
         image : req.body.image
@@ -65,7 +65,7 @@ exports.getTag = (req, res) =>
 exports.updateTag = (req, res) => {
     Tag.updateOne({tag_id: req.params.id},
     {
-        name : req.body.username,
+        name : req.body.name,
         box : req.body.box,
         score : req.body.score,
         image : req.body.image

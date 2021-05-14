@@ -1,7 +1,7 @@
 #root
 {
   min-height: 100vh;
-  background-color: #383F47;
+  background-color: #ffffff;
 
 }
 
@@ -9,7 +9,8 @@
 {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: 1fr 0.15fr;
+  grid-template-rows: 20px 0.8fr 0.15fr;
+  grid-template-columns: 20px 1fr auto;
 }
 
 

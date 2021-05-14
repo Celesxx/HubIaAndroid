@@ -11,8 +11,6 @@ function Camera()
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
 
-  const [response, setResponse] = useState("");
-
   // Main function
   const runCoco = async () => 
   {
@@ -53,11 +51,8 @@ function Camera()
     }
   };
 
-  useEffect(() => {
-    // const socket = socketIOClient(ENDPOINT);
-    // socket.on("image", data => {
-    //   setResponse(data);
-    // });
+  useEffect(() =>
+  {
     runCoco();
   }, []);
 
