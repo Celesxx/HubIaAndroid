@@ -5,7 +5,8 @@ module.exports = function(app)
     
     var playerController = require('../controllers/player.controller.js');
     var tagController = require('../controllers/tag.controller.js');
-    // var iaController = require('../controllers/ia.controller.js')
+    var userController = require('../controllers/user.controller.js');
+    var loginController = require('../controllers/login.controller.js');
   
     app.post('/postPlayer', playerController.createPlayer);
     app.get('/getPlayer/:id', playerController.getPlayer);
@@ -19,5 +20,12 @@ module.exports = function(app)
     app.put('/putTag/:id', tagController.updateTag);
     app.delete('/deleteTag/:id', tagController.deleteTag);
 
-    // app.get('/', iaController.getCam)
+    app.post('/postUser', userController.createUser);
+    app.get('/getUser/:id', userController.getUser);
+    app.get('/getUsers', userController.users);
+    app.put('/putUser/:id', userController.updateUser);
+    app.delete('/deleteUser/:id', userController.deleteUser);
+
+    app.post('/login', loginController.getLogin)
+    app.get('/userAuth', loginController.isAuth)
 }

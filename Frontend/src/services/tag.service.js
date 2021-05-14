@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function postTag(data)
 {
-  const URL = `http://localhost:8081/postTag`;
+  const URL = `/postTag`;
   return axios(URL, {
     method: 'POST',
     headers: {
@@ -22,7 +22,7 @@ export function postTag(data)
 
 export function getTags()
 {
-    const URL = "http://localhost:8081/getTags";
+    const URL = "/getTags";
     return axios(URL, {
       method: 'GET'
     })
@@ -34,7 +34,7 @@ export function getTags()
 
 export function updateTag(id,data)
 {
-    const URL = `http://localhost:8081/putTag/${id}`;
+    const URL = `/putTag/${id}`;
     return axios(URL, {
       method: 'PUT',
       data: data
@@ -46,7 +46,7 @@ export function updateTag(id,data)
 };
 
 export function deleteTag(id)  {
-  const URL = `http://localhost:8081/deleteTag/${id}`;
+  const URL = `/deleteTag/${id}`;
   return axios(URL, {
     method: 'DELETE'
   })
