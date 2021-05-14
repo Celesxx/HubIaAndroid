@@ -16,6 +16,8 @@ class loginPage extends React.Component
         this.handleSubmit = this.handleSubmit.bind(this)
       }
 
+    
+
     handleChangeLogin(event) {
         this.setState({login: event.target.value});
     }
@@ -26,10 +28,9 @@ class loginPage extends React.Component
 
     handleSubmit(event) {
         event.preventDefault();
-        alert('Le login est : ' + this.state.login + 'Le mot de passe est : ' + this.state.password);
-        let saucsssse = getDatas(this.state.login);
-        
-        console.log(saucsssse)
+        alert('Le login est : ' + this.state.login + ' Le mot de passe est : ' + this.state.password);
+    //     getDatas(this.state.login).then((res) =>
+    //     console.log("Résultat réponse" + res))
     }
 
     render()
