@@ -1,5 +1,6 @@
 package com.epitech.hubia.data
 
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -26,6 +27,8 @@ class SocketRemoteDataSource @Inject constructor(
 
     private val jobs = ArrayList<Job>()
 
+
+
     init {
         mEventService.setEventListener(this)
     }
@@ -34,9 +37,13 @@ class SocketRemoteDataSource @Inject constructor(
 
     fun encodedImagesCollector() {
         // GlobalScope pas besoin de context pour le lancer
+        // TODO Watch tutorial about how to consume MutableSharedFlow in a more elegant manner
+
         val globalScopeResult = GlobalScope.launch(Dispatchers.IO) {
-            sendImagesChannel.map { it }.flowOn(Dispatchers.IO).collect {
-                mEventService.sendImages("newImage", it)
+            sendImagesChannel.map {
+                it
+            }.flowOn(Dispatchers.IO).collect {
+                mEventService.sendImages(it)
             }
         }
 

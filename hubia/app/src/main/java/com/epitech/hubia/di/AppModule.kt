@@ -5,6 +5,7 @@ import com.epitech.hubia.data.EventServiceImpl
 import com.epitech.hubia.data.SocketDataSource
 import com.epitech.hubia.data.SocketRemoteDataSource
 import com.epitech.hubia.repository.SocketRepository
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -16,9 +17,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
+
     @Provides
     @Singleton
-    fun providesEventService(): EventService = EventServiceImpl()
+    fun providesEventService(gson: Gson): EventService = EventServiceImpl(gson)
 
     @Provides
     @Singleton
@@ -29,7 +32,6 @@ object AppModule {
     @Singleton
     fun providesSocketRepository(socketRemoteDataSource: SocketRemoteDataSource) =
         SocketRepository(socketRemoteDataSource)
-
 
     @Provides
     @Singleton

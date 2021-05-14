@@ -1,5 +1,6 @@
 package com.epitech.hubia.data
 
+import com.google.gson.Gson
 import io.socket.client.IO
 import io.socket.client.Socket
 import io.socket.emitter.Emitter
@@ -9,7 +10,7 @@ import java.net.URISyntaxException
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
-class EventServiceImpl @Inject() constructor() : EventService {
+class EventServiceImpl @Inject() constructor(private val gson: Gson) : EventService {
     companion object {
         private val EMULATOR_URL = "http://10.0.2.2:4000/"
         private val LOCALHOST_URL = "http://127.0.0.1:4000/"
@@ -84,8 +85,11 @@ class EventServiceImpl @Inject() constructor() : EventService {
     }
 
 
-    override fun sendImages(vararg args: Any) {
-        mSocket?.emit("newImage", args)
+    override fun sendImages(vararg args: String) {
+        val imageDt = EncodedImage(args[0])
+        val jsonImage: String = gson.toJson(imageDt)
+        //Timber.d(jsonImage)
+        mSocket?.emit("newImage", jsonImage)
     }
 
 

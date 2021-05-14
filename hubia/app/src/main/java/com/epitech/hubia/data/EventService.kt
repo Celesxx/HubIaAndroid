@@ -12,7 +12,7 @@ interface EventService {
 
     fun sendMessage()
 
-    fun sendImages(vararg args: Any)
+    fun sendImages(vararg args: String)
 
     // TODO setEventListener for consuming events from server
     fun setEventListener(eventListener: EventListener)
