@@ -1,0 +1,127 @@
+.bodyLogin
+{
+    background: white;
+    display: grid;
+    grid-template-columns: 1fr 2.5fr 1fr;
+    grid-template-rows: 0.05fr 0.1fr auto auto auto 0.2fr 0.04fr;
+}
+
+.contactBar
+{
+    grid-column: 1/-1;
+    grid-row: 1/1;
+    background: #555555;
+    display: grid;
+    grid-template-columns: 1fr 0.3fr 0.3fr;
+    grid-template-columns: 1fr auto auto;
+}
+
+#contactBar-link
+{
+    color : white;
+}
+
+#contactBar-link:hover {color: #039be5;}
+
+.contactBar-phone 
+{
+    grid-column: 2/2;
+    margin-right: 1em;
+}
+.contactBar-mail 
+{
+    grid-column: 3/3;
+    margin-right: 1em;
+}
+
+.headBar
+{
+    grid-column: 1/-1;
+    grid-row: 2/2;
+    background: white;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+.headBar-logo-img
+{
+    margin-left: auto;
+  margin-right: auto;
+  max-width: 150px;
+}
+.licenceBar
+{
+    grid-column: 1/-1;
+    grid-row: 6/6;
+    display: grid;
+    grid-template-columns: 0.05fr 1fr 0.05fr;
+}
+
+.licenceBar-body
+{
+    grid-column: 2/2;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 10px rgba(0,0,0,0.12);
+}
+.content
+{
+    grid-column: 2;
+    grid-row: 4/4;
+    background-color: white;
+    color: black ;
+    box-shadow: 0px 2px 4px -1px rgba(0,0,0,0.2),0px 4px 5px 0px rgba(0,0,0,0.14),0px 1px 10px 0px rgba(0,0,0,0.12);
+}
+
+.formLogin
+{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.formLogin-title
+{
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+.formLogin-block 
+{
+    display:grid;
+    grid-template-rows: auto auto;
+    margin-top: 3.5em;
+}
+
+.formLogin-block-input
+{
+    all: initial !important;
+    width: 60% !important;
+    padding: 18px 20px !important;
+    margin: 8px auto auto !important;
+    display: inline-block !important; 
+    border: 1px solid rgb(0, 0, 0) !important;
+    border-radius: 4px !important;
+    box-sizing: border-box !important;
+    color : black !important;
+}
+
+.formLogin-button
+{
+    text-align: center !important;
+    margin-top: 3em !important;
+}
+.formLogin-input::placeholder
+{
+    color: black;
+}
+
+.formLogin-submit
+{
+    margin-right: auto !important;
+    margin-left: auto !important;
+}
+.formLogin-submit-content
+{
+    
+    background-color: #3259ca;
+    color: white; 
+    font-family: 'Muli', sans-serif; ; 
+    font-size: 20px;
+}
