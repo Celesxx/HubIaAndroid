@@ -3,6 +3,7 @@ import Graph from "../components/pages/graph.jsx";
 import Data from "../components/pages/data.jsx";
 import Login from "../components/pages/login";
 import GestionTag from "../components/pages/gestionTag.jsx";
+import GestionUser from "../components/pages/gestionUser.jsx";
 import ProtectedRoute from "./protected.route";
 import {
   BrowserRouter as Router,
@@ -21,6 +22,7 @@ function indexRoute() {
           <ProtectedRoute path="/"exact component={Index}></ProtectedRoute>
           <Route path="/login" exact component={Login}></Route>
           <ProtectedRoute path="/gestionTag" exact component={GestionTag}></ProtectedRoute>
+          <ProtectedRoute path="/gestionUser" exact component={GestionUser}></ProtectedRoute>
         </Switch>
     </Router>
   );
