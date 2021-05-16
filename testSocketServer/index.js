@@ -1,3 +1,4 @@
+var path = require('path')
 var express = require('express');
 var socket = require('socket.io');
 
@@ -8,11 +9,23 @@ var server = app.listen(4000, function(){
 });
 
 // Static files
-app.use(express.static('public'));
+//app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'))
+})
 
 // Socket setup & pass server
-var io = socket(server);
+var io = socket(server, {
+    maxHttpBufferSize: 5e8,
+    //pingTimeout: 100000,
+    transports: ["websocket"],
+    httpCompression: true
+});
+
+
 io.on('connection', (socket) => {
+
 
     console.log('made socket connection', socket.id);
 
@@ -29,6 +42,18 @@ io.on('connection', (socket) => {
     })
 
     socket.on("newImage", (data) => {
-        console.log(data)
+        let currentTime = new Date().toLocaleTimeString()
+        console.log("New Image : " + currentTime)
+        socket.broadcast.emit("image", data)
     })
 });
+
+Object.size = function(obj) {
+    var size = 0,
+      key;
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+  };
+  

@@ -7,6 +7,7 @@ import io.socket.emitter.Emitter
 import io.socket.engineio.client.transports.WebSocket
 import timber.log.Timber
 import java.net.URISyntaxException
+import java.time.LocalDateTime
 import javax.inject.Inject
 import kotlin.jvm.Throws
 
@@ -29,17 +30,17 @@ class EventServiceImpl @Inject() constructor(private val gson: Gson) : EventServ
         var mUsername = username
 
         try {
-            val socketOptions = IO.Options()
-            with(socketOptions) {
+            val socketOptions = IO.Options().apply {
                 forceNew = true
                 reconnection = true
-                transports = arrayOf(WebSocket.NAME)    //message plus claire pour le message d'erreur loggé
-
+                transports = arrayOf(WebSocket.NAME)
+                //timeout = 100000
             }
+
+
             mSocket = IO.socket(SOCKET_URL, socketOptions)
 
-            mSocket?.let {
-                with(it) {
+            mSocket?.apply {
 
                     // BIND LISTENERS TO CALLBACKS
                     on(Socket.EVENT_CONNECT, onConnect())
@@ -50,7 +51,6 @@ class EventServiceImpl @Inject() constructor(private val gson: Gson) : EventServ
                     connect()
 
                     emit("Hello", "Bonjour")
-                }
 /*                GlobalScope.launch {
                     withContext(Dispatchers.IO) {
                         while (true) {
@@ -61,7 +61,6 @@ class EventServiceImpl @Inject() constructor(private val gson: Gson) : EventServ
                     }
                 }*/
             }
-
         } catch (e: URISyntaxException) {
             Timber.e(e, "Failed to get socket from URL: \n$e")
         }
@@ -85,11 +84,12 @@ class EventServiceImpl @Inject() constructor(private val gson: Gson) : EventServ
     }
 
 
-    override fun sendImages(vararg args: String) {
-        val imageDt = EncodedImage(args[0])
-        val jsonImage: String = gson.toJson(imageDt)
-        //Timber.d(jsonImage)
-        mSocket?.emit("newImage", jsonImage)
+    override fun sendImages(vararg args: Any) {
+        //val imageDt = EncodedImage(args[0])
+        //val jsonImage: String = gson.toJson(imageDt)
+        //Timber.d("${args[0].length}")
+        mSocket?.emit("newImage", args[0])
+        Timber.d("New Image : ${LocalDateTime.now()}")
     }
 
 

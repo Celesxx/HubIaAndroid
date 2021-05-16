@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import com.epitech.hubia.utils.Yuv420ToJpegConverter
 import timber.log.Timber
 import java.lang.Exception
 import java.util.*
@@ -61,13 +62,11 @@ fun CameraPreview(
                     it.setSurfaceProvider(previewView.createSurfaceProvider())
                 }
             val objectAnalyzer = ImageAnalysis.Builder()
-                .setTargetResolution(Size(1440, 3040))
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also {
                     it.setAnalyzer(cameraExecutor, MachineLearningAnalyzer { encodedImage ->
                         cameraPreviewViewModel.sendEncodedImages(encodedImage)
-                        //Timber.d("IT WORKS !!! $encodedImage")
                     })
                 }
 
@@ -92,9 +91,8 @@ fun CameraPreview(
 private class MachineLearningAnalyzer(private var listener: (encodedImage: String) -> Unit) :
     ImageAnalysis.Analyzer {
 
-    private val TIME_IN_MS = 1000
+    private val TIME_IN_MS = 33 // 30 fps approx
     private var lastAnalyzedTimeStamp = 0L
-
 
 
     @SuppressLint("UnsafeExperimentalUsageError")
@@ -103,24 +101,19 @@ private class MachineLearningAnalyzer(private var listener: (encodedImage: Strin
             val mediaImage = imageProxy.image
             mediaImage?.let {
 
-                // Extract image data in YUV_420_888 and set it to Byte Array
-                val y = mediaImage.planes[0]
-                val u = mediaImage.planes[1]
-                val v = mediaImage.planes[2]
 
-                val yB = y.buffer.remaining()
-                val uB = u.buffer.remaining()
-                val vB = v.buffer.remaining()
 
-                val imageData = ByteArray(yB + uB + vB)
 
-                y.buffer.get(imageData, 0, yB)
-                u.buffer.get(imageData, yB, uB)
-                v.buffer.get(imageData, yB + uB, vB)
+                val imageData = Yuv420ToJpegConverter.yuv420ToJpeg(
+                    mediaImage,
+                    mediaImage.width,
+                    mediaImage.height
+                )
 
                 val encodedImageData = Base64.getEncoder().encodeToString(imageData)
 
                 listener(encodedImageData)
+                //listener(imageData)
 
 
             } ?: run { imageProxy.close() }
@@ -131,8 +124,6 @@ private class MachineLearningAnalyzer(private var listener: (encodedImage: Strin
 
 
     fun hasHalfSecondPassed(): Boolean {
-        //val currentTimeStamp = System.currentTimeMillis()
-        //val currentTimeStamp = SystemClock.uptimeMillis()
         val currentTimeStamp = SystemClock.elapsedRealtime()
         return if ((currentTimeStamp - lastAnalyzedTimeStamp) >= TIME_IN_MS) {
             lastAnalyzedTimeStamp = currentTimeStamp
