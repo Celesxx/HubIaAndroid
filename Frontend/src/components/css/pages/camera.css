@@ -1,0 +1,25 @@
+.camera-header
+{
+    grid-row: 2;
+    grid-column: 2;
+    display:grid;
+    grid-template-columns: auto 1fr auto ;
+}
+
+.camera-content
+{
+    grid-column: 2;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.camera-content-canvas
+{
+    margin-left: auto;
+    margin-right: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 8;
+}

@@ -1,0 +1,21 @@
+#root
+{
+  min-height: 100vh;
+  background-color: #ffffff;
+
+}
+
+.body
+{
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 20px 0.8fr 0.15fr;
+  grid-template-columns: 20px 1fr auto;
+}
+
+
+
+
+
+
+
