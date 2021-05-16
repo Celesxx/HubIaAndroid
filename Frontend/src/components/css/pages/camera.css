@@ -8,6 +8,7 @@
 
 .camera-content
 {
+    position: absolute;
     grid-column: 2;
     margin-left: auto;
     margin-right: auto;

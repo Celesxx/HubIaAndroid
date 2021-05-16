@@ -103,9 +103,15 @@ class Camera extends Component
 
         const socket = io('http://localhost:4000/', { transports: ["websocket"] })
         socket.on("image", data => {
-            console.log("received image to front : ", data)
-            const image = document.getElementById('image')
-            image.src = `data:image/jpeg;base64,${data}`
+            // console.log("received image to front : ", data)
+            try{
+                const image = document.getElementById('image')
+                image.src = `data:image/jpeg;base64,${data}`
+            }catch(error)
+            {
+                console.log(error)
+            }
+            
         })
 
         return(
