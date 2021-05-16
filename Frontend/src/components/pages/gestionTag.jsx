@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import * as Service from '../../services/tag.service'
 import Paper from "@material-ui/core/Paper";
 import { Button, ButtonGroup } from 'reactstrap';
-import DataGrid, { Column } from 'devextreme-react/data-grid';
-
+import DataGrid, { Column, Pager, Paging } from 'devextreme-react/data-grid';
 import Navbar from "./components/navbar";
+
+import 'devextreme/dist/css/dx.common.css';
+import 'devextreme/dist/css/dx.light.css';
 import "../css/core.css";
 import "../css/input.css";
 import "../css/pages/gestionTag.css"
@@ -18,9 +20,9 @@ class GestionTag extends Component
         {
             isLoading: true,
             rows: [],
+            showBorders: true,
             showColumnLines: true,
             showRowLines: true,
-            showBorders: true,
             rowAlternationEnabled: true
         };
     }
@@ -79,13 +81,15 @@ class GestionTag extends Component
             <header className="body">
 
               <Paper elevation={3} className="paper">
-                <div className="paper-table">
                   <DataGrid
                     dataSource={this.state.rows}
                     showColumnLines={showColumnLines}
                     showRowLines={showRowLines}
                     showBorders={showBorders}
                     rowAlternationEnabled={rowAlternationEnabled}>
+
+                    <Paging defaultPageSize={8} />
+                    <Pager showPageSizeSelector={true} allowedPageSizes={[5, 8, 20]} showInfo={true} />
 
                     <Column dataField="Id" width={50}/>
                     <Column dataField="Tag" width={260}/>
@@ -97,7 +101,6 @@ class GestionTag extends Component
                     <Column dataField="Img" width={200} cellRender={this.renderGridCell} />
                     <Column dataField="Action" width={260} cellRender={this.renderGridAction}/>
                   </DataGrid>
-                </div>
               </Paper>
 
             <Navbar></Navbar>

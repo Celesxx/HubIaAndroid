@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as Service from '../../services/user.service'
 import Paper from "@material-ui/core/Paper";
 import { Button, ButtonGroup } from 'reactstrap';
-import DataGrid, { Column } from 'devextreme-react/data-grid';
+import DataGrid, { Column, Pager, Paging } from 'devextreme-react/data-grid';
 
 import Navbar from "./components/navbar";
 import "../css/core.css";
@@ -72,7 +72,6 @@ class GestionTag extends Component
             <header className="body">
 
               <Paper elevation={3} className="paper">
-                <div className="paper-table">
                   <DataGrid
                     dataSource={this.state.rows}
                     showColumnLines={showColumnLines}
@@ -80,12 +79,14 @@ class GestionTag extends Component
                     showBorders={showBorders}
                     rowAlternationEnabled={rowAlternationEnabled}>
 
+                    <Paging defaultPageSize={5} />
+                    <Pager showPageSizeSelector={true} allowedPageSizes={[5, 10, 20]} showInfo={true} />
+
                     <Column dataField="Id" width={50}/>
                     <Column dataField="Email" width={350}/>
                     <Column dataField="Password" width={750}/>
                     <Column dataField="Action" width={260} cellRender={this.renderGridAction}/>
                   </DataGrid>
-                </div>
               </Paper>
 
             <Navbar></Navbar>
