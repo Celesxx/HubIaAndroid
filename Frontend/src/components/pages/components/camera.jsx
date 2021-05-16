@@ -5,6 +5,7 @@ import Webcam from "react-webcam";
 import { drawRect } from "../../function/utilities.function";
 import { record } from "../../function/tag.function";
 import "../../css/pages/camera.css"
+import { io } from "socket.io-client";
 import Paper from "@material-ui/core/Paper";
 import DataGrid, { Column, Pager, Paging } from 'devextreme-react/data-grid';
 
@@ -27,6 +28,7 @@ class Camera extends Component
 
         this.webcamRef = React.createRef(null);
         this.canvasRef = React.createRef(null);
+        this.canvasRefApp = React.createRef(null)
     }
 
 
@@ -35,6 +37,7 @@ class Camera extends Component
         // const {totalDetection, scorePersonn, scorePhone} = this.state
         const webcamRef = this.webcamRef
         const canvasRef = this.canvasRef    
+        const canvasRefApp = this.canvasRefApp    
 
         const runCoco = async () => 
         {
@@ -42,6 +45,7 @@ class Camera extends Component
             setInterval(() => 
             {
                 detect(net);
+                // detectApp(net);
             }, 10);
         };
 
@@ -65,46 +69,6 @@ class Camera extends Component
             const obj = await net.detect(video);
 
             record(obj, webcamRef)
-            // if(rows.length != 0) 
-            // {
-            //     // let inRow = false
-            //     for(let element in rows)
-            //     {
-            //         if(element.Type === obj[0].class)
-            //         {
-            //             // inRow = true
-            //             let array = element.score
-            //             array.push(obj[0].score)
-            //             const average = list => list.reduce((prev, curr) => prev + curr) / list.length;
-
-            //             this.setState(prevState => ({...prevState, rows:{...prevState.totalScore, totalScore : average(array)}}))
-            //             this.setState(prevState => ({...prevState, rows:{...prevState.Nbr, Nbr : element.Nbr + 1}}))
-            //         }
-            //     }
-            
-                // if(inRow == false)
-                // {
-                //     let newRow = { Type : obj[0].class, Nbr : 1, scoreMoyen : obj[0].score }
-                //     this.setState(rows.push(newRow))
-                // }
-            // } else
-            // {
-            //     let newRow = [{ Type : obj[0].class, Nbr : 1, scoreMoyen : obj[0].score }]
-
-            //     this.setState({rows : newRow})
-            // }
-            
-            // Draw mesh
-
-            // this.setState({totalDetection : totalDetection + 1})
-            // try{
-            //     if(obj[0].class == "person") this.setState({scorePersonn : scorePersonn + 1})
-            //     else if(obj[0].class == "cell phone") this.setState({scorePhone : scorePhone + 1})
-            // }catch (error) 
-            // {
-            //   console.log(`une erreur est survenue lors de l'enregistrement de la détection avec le message : ${error}`)
-            // }
-           
 
             const ctx = canvasRef.current.getContext("2d");
 
@@ -112,8 +76,37 @@ class Camera extends Component
             }
         };
 
+        // const detectApp = async (net) => {
+        //     // Check data is available
+        //     var img = document.getElementById("image");
+        //     if (!img.src || !img.src.length || img.src.length === 0) 
+        //     {
+        //         // Get Video Properties
+        //         const video = img.src;
+        //         const videoWidth = img.clientWidth;
+        //         const videoHeight = img.clientHeight;
+
+        //         // Set canvas height and width
+        //         canvasRefApp.current.width = videoWidth;
+        //         canvasRefApp.current.height = videoHeight;
+
+        //         // Send video to IA
+        //         const obj = await net.detect(video);
+
+        //         const ctx = canvasRefApp.current.getContext("2d");
+
+        //         drawRect(obj, ctx);
+        //     }
+        // };
+
         runCoco();
 
+        const socket = io('http://localhost:4000/', { transports: ["websocket"] })
+        socket.on("image", data => {
+            console.log("received image to front : ", data)
+            const image = document.getElementById('image')
+            image.src = `data:image/jpeg;base64,${data}`
+        })
 
         return(
             <div className="camera-header">
@@ -123,27 +116,10 @@ class Camera extends Component
                     <canvas ref={canvasRef} className="camera-content-canvas" />  
                 </div>
 
-                {/* <div className="tab">
-                    <p>Total de détection : {totalDetection}</p>
-                    <p>Détection de personne : {scorePersonn}</p>
-                    <p>Détection de téléphone : {scorePhone}</p> */}
-                    {/* <Paper elevation={3} className="paper">
-                        <DataGrid
-                            dataSource={rows}
-                            showColumnLines={showColumnLines}
-                            showRowLines={showRowLines}
-                            showBorders={showBorders}
-                            rowAlternationEnabled={rowAlternationEnabled}>
-
-                            <Paging defaultPageSize={5} />
-                            <Pager showPageSizeSelector={true} allowedPageSizes={[5, 10, 20]} showInfo={true} />
-
-                            <Column dataField="Type" width={50}/>
-                            <Column dataField="Nbr" width={350}/>
-                            <Column dataField="ScoreMoyen" width={750}/>
-                        </DataGrid>
-                    </Paper> */}
-                {/* </div> */}
+                <div className="camera-app">
+                    <img id="image" className="camera-app-img"/>
+                    <canvas ref={canvasRefApp} className="camera-content-canvas" /> 
+                </div>
             </div>
         )
     }
