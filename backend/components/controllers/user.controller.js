@@ -1,37 +1,42 @@
-const Player = require('../models/user.js');
-const mongoose = require('mongoose');
+const Users = require('../models/user.model.js');
+const bcrypt = require('bcrypt');
 
-exports.createUser = (req, res) => 
-{
-    const user = new User(
-    {
-        firstName : req.body.firstName,
-        lastName : req.body.lastName,
-        mail : req.body.mail,
-        username : req.body.username,
-        password : md5(req.body.password),
-        score : req.body.score,
-        token : req.body.token
-    });
+exports.createUser = (req, res) => {
 
-    user.save().then(user => 
+    const password = req.body.password
+    const saltRounds = 10;
+
+    bcrypt.genSalt(saltRounds, function(err, salt) 
     {
-        res.status(200).json(user);
-    }).catch(err => 
-    {
-        res.status(500).json(
+        bcrypt.hash(password, salt, function(err, hash) 
         {
-            message: "Fail!",
-            error: err.message
-        });
+            const user = new Users(
+                {
+                    email: req.body.email,
+                    password: hash,
+                    admin: req.body.admin
+                });
+            
+                user.save().then(data => 
+                {
+                    res.status(200).json(data);
+                }).catch(err => 
+                {
+                    res.status(500).json(
+                    {
+                        message: "Fail!",
+                        error: err.message
+                    });
+                });
+        })
     });
 };
   
-exports.getUsers = (req, res) => 
+exports.users = (req, res) => 
 {
-    User.find().select('-__v').then(UserInfos => 
+    Users.find().select('-__v').then(userInfos => 
     {
-        res.status(200).json(UserInfos);
+        res.status(200).json(userInfos);
     }).catch(error => {
         console.log(error);
         res.status(500).json(
@@ -45,7 +50,7 @@ exports.getUsers = (req, res) =>
 
 exports.getUser = (req, res) => 
 {
-    User.find({user_id : req.params.id})
+    Users.find({id: req.params.id})
     .then(user => 
     {
         res.status(200).json(user);
@@ -53,7 +58,7 @@ exports.getUser = (req, res) =>
     {
           if(err.kind === 'ObjectId') {
               return res.status(404).send({
-                  message: "User not found with id " + req.params.id,
+                  message: "user not found with id " + req.params.id,
                   error: err
               });                
           }
@@ -65,47 +70,61 @@ exports.getUser = (req, res) =>
 };
  
 
-// exports.updatePlayer = (req, res) => {
-//     Player.updateOne({player_id: req.params.id},
-//     {
-//         username : req.body.username,
-//         score : req.body.score
-//     }, {new: true})
-//     .then(player => 
-//     {
-//         if(!player) 
-//         {
-//             return res.status(404).send({
-//                 message: "Error -> Can NOT update a player with id = " + req.params.id,
-//                 error: "Not Found!"
-//             });
-//         }
+exports.updateUser = (req, res) => 
+{
 
-//     res.status(200).json(player);
+    const password = req.body.password
+    const saltRounds = 10;
 
-//     }).catch(err => {
-//         return res.status(500).send({
-//             message: "Error -a> Can not update a player with id = " + req.params.id,
-//             error: err.message
-//         });
-//     });
-// };
+    bcrypt.genSalt(saltRounds, function(err, salt) 
+    {
+        bcrypt.hash(password, salt, function(err, hash) 
+        {
+            Users.updateOne({id: req.params.id},
+            {
+                email: req.body.email,
+                password: hash,
+                admin: req.body.admin
+
+            }, {new: true})
+            .then(user => 
+            {
+                if(!user) 
+                {
+                    return res.status(404).send({
+                        message: "Error -> Can NOT update a user with id = " + req.params.id,
+                        error: "Not Found!"
+                    });
+                }
+
+            res.status(200).json(user);
+
+            }).catch(err => {
+                return res.status(500).send({
+                    message: "Error -> Can not update a user with id = " + req.params.id,
+                    error: err.message
+                });
+            });
+        });
+    });
+};
 
 exports.deleteUser = (req, res) => 
 {
+    let userId = req.params.id
 
-    User.remove({user_id : req.params.id})
+    Users.remove({id:userId})
     .then(user => {
         if(!user) {
             res.status(404).json({
-            message: "Does Not exist a user with id = " + req.params.id,
+            message: "Does Not exist a user with id = " + userId,
             error: "404",
             });
         }
         res.status(200).json({});
     }).catch(err => {
         return res.status(500).send({
-            message: "Error -> Can NOT delete a user with id = " + req.params.id,
+            message: "Error -> Can NOT delete a user with id = " + userId,
             error: err.message
         });
     });

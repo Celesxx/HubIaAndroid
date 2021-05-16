@@ -1,4 +1,4 @@
-const Player = require('../models/image.js');
+const Player = require('../models/image.model.js');
 const mongoose = require('mongoose');
 
 exports.createImage = (req, res) => 

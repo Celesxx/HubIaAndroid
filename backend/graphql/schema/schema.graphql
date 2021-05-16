@@ -1,0 +1,39 @@
+# Custom Types
+
+type Player 
+{
+    _id: ID!
+    username: String!
+    score: [Score]!
+}
+
+input PlayerInput
+{
+    username: String
+    score: [Score]
+} 
+
+type Score
+{
+    object: String!
+    nbr: Int!
+}
+
+# Querys
+
+type Query
+{
+    players:[Player!]!
+    player(_id: ID): Player!
+}
+
+# Mutations
+
+type Mutation
+{
+    createPlayer(input: PlayerInput!): Player!
+    # updateScorePlayer(_id: ID!, input: InputScore!): Player!
+    updateUsernamePlayer(_id: ID!, username: String!): Player!
+    updatePlayer(_id: ID!, input: PlayerInput!): Player!
+    deletePlayer(_id: ID!): Player!
+}

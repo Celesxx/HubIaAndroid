@@ -1,4 +1,4 @@
-const Player = require('../models/player.js');
+const Player = require('../models/player.model.js');
 const mongoose = require('mongoose');
 
 exports.createPlayer = (req, res) => 

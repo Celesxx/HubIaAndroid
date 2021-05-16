@@ -16,3 +16,9 @@
 img {
     height: 55px;
 }
+
+
+.dx-datagrid-borders
+{
+ border-color: black !important;
+}
