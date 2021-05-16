@@ -81,7 +81,7 @@ class Camera extends Component
         //     var img = document.getElementById("image");
         //     if (!img.src || !img.src.length || img.src.length === 0) 
         //     {
-        //         // Get Video Properties
+        //         // Get Video Propertie
         //         const video = img.src;
         //         const videoWidth = img.clientWidth;
         //         const videoHeight = img.clientHeight;
